@@ -14,6 +14,29 @@ firebase.initializeApp(firebaseConfig);
 
 let allVideos = [];
 
+// Display status messages in the UI
+function displayMessage(message, isError = false) {
+    const messageContainer = document.createElement("div");
+    messageContainer.textContent = message;
+    messageContainer.style.padding = "10px";
+    messageContainer.style.margin = "10px auto";
+    messageContainer.style.textAlign = "center";
+    messageContainer.style.color = isError ? "#ff0000" : "#008000";
+    messageContainer.style.backgroundColor = isError ? "#ffe6e6" : "#e6ffe6";
+    messageContainer.style.border = "1px solid";
+    messageContainer.style.borderColor = isError ? "#ff0000" : "#008000";
+    messageContainer.style.borderRadius = "5px";
+    messageContainer.style.width = "90%";
+    messageContainer.style.maxWidth = "800px";
+
+    const formSection = document.querySelector("#register-section, #login-section");
+    formSection.insertBefore(messageContainer, formSection.firstChild);
+
+    setTimeout(() => {
+        messageContainer.remove();
+    }, 5000); // Message disappears after 5 seconds
+}
+
 // Toggle between Register and Login Forms
 function toggleForms() {
     document.getElementById('register-section').style.display =
@@ -29,10 +52,10 @@ function registerUser() {
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
-            alert("Registration successful!");
+            displayMessage("Registration successful!");
             loadVideos();
         })
-        .catch(error => alert(error.message));
+        .catch(error => displayMessage(error.message, true));
 }
 
 // Login User
@@ -42,10 +65,10 @@ function loginUser() {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
-            alert("Login successful!");
+            displayMessage("Login successful!");
             loadVideos();
         })
-        .catch(error => alert(error.message));
+        .catch(error => displayMessage(error.message, true));
 }
 
 // Load Videos from Dailymotion API
@@ -60,7 +83,7 @@ function loadVideos() {
             allVideos = data.list; // Store all videos
             displayVideos(allVideos);
         })
-        .catch(error => console.error("Error loading videos:", error));
+        .catch(error => displayMessage("Error loading videos: " + error.message, true));
 }
 
 // Display Videos
@@ -135,4 +158,4 @@ function togglePasswordVisibility(passwordId, eyeIconId) {
         eyeIcon.classList.add("eye-closed");
         eyeIcon.classList.remove("eye-open");
     }
-              }
+        }
