@@ -51,11 +51,15 @@ function registerUser() {
     const password = document.getElementById('register-password').value;
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() => {
-            displayMessage("Registration successful!");
+        .then((userCredential) => {
+            // Successfully registered
+            displayMessage("Registration Successful!");
             loadVideos();
         })
-        .catch(error => displayMessage(error.message, true));
+        .catch(error => {
+            console.error("Registration Error: ", error);  // Log error to console
+            displayMessage(error.message, true);
+        });
 }
 
 // Login User
@@ -64,11 +68,15 @@ function loginUser() {
     const password = document.getElementById('login-password').value;
 
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(() => {
-            displayMessage("Login successful!");
+        .then((userCredential) => {
+            // Successfully logged in
+            displayMessage("Login Successful!");
             loadVideos();
         })
-        .catch(error => displayMessage(error.message, true));
+        .catch(error => {
+            console.error("Login Error: ", error);  // Log error to console
+            displayMessage(error.message, true);
+        });
 }
 
 // Load Videos from Dailymotion API
@@ -82,8 +90,40 @@ function loadVideos() {
         .then(data => {
             allVideos = data.list; // Store all videos
             displayVideos(allVideos);
+            createCategories(allVideos);
         })
         .catch(error => displayMessage("Error loading videos: " + error.message, true));
+}
+
+// Create Categories based on the first two words of each video title
+function createCategories(videos) {
+    const categoryContainer = document.getElementById('category-container');
+    const categories = new Set();
+
+    videos.forEach(video => {
+        const titleWords = video.title.split(" ");
+        const category = titleWords.slice(0, 2).join(" "); // First two words
+        categories.add(category);
+    });
+
+    categoryContainer.innerHTML = '';
+    categories.forEach(category => {
+        const categoryButton = document.createElement("div");
+        categoryButton.classList.add("category");
+        categoryButton.textContent = category;
+        categoryButton.onclick = () => filterByCategory(category);
+        categoryContainer.appendChild(categoryButton);
+    });
+}
+
+// Filter videos by category (first two words in the title)
+function filterByCategory(category) {
+    const filteredVideos = allVideos.filter(video => {
+        const titleWords = video.title.split(" ");
+        const videoCategory = titleWords.slice(0, 2).join(" ");
+        return videoCategory.toLowerCase() === category.toLowerCase();
+    });
+    displayVideos(filteredVideos);
 }
 
 // Display Videos
