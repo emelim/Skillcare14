@@ -1,23 +1,18 @@
 /* General Styles */
 body {
     font-family: 'Poppins', Arial, sans-serif;
-    background-color: #f4f9fc; /* Soft blue tint */
+    background-color: #000000; /* Black background */
     margin: 0;
     padding: 0;
-    color: #333;
+    color: #f8f9fa; /* Light grey for better readability */
+    scroll-behavior: smooth;
 }
 
 #register-section, #login-section {
     width: 90%;
     max-width: 800px;
     margin: 20px auto;
-    background: linear-gradient(
-        rgba(0, 0, 0, 0.6),
-        rgba(0, 0, 0, 0.6)
-    ), url('https://i.ibb.co/mvV20jv/Screenshot-20241220-003349.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: #222; /* Dark background instead of image */
     color: white;
     padding: 30px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -25,28 +20,36 @@ body {
     text-align: center;
 }
 
+/* Form Fields */
 input, button {
     width: 100%;
     margin: 10px 0;
     padding: 12px;
     font-size: 16px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #555; /* Darker border for better blending */
     outline: none;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
 input {
     background: #ffffff;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
+    color: #000;
 }
 
 input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    border-color: #28a745;
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
 }
 
+input:hover {
+    border-color: #28a745;
+    box-shadow: 0 0 6px rgba(40, 167, 69, 0.3);
+}
+
+/* Buttons */
 button {
-    background: linear-gradient(to right, #007bff, #0056b3);
+    background: linear-gradient(to right, #28a745, #1e7e34); /* Green button */
     color: white;
     border: none;
     cursor: pointer;
@@ -55,17 +58,18 @@ button {
 }
 
 button:hover {
-    background: linear-gradient(to right, #0056b3, #003f7f);
-    transform: translateY(-3px);
+    background: linear-gradient(to right, #1e7e34, #155d27);
+    transform: scale(1.05) translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Search Bar */
 #search-bar {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
     padding: 15px 20px;
-    background: #ffffff;
+    background: #222;
     border-radius: 12px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -79,10 +83,11 @@ button:hover {
 }
 
 #search-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    border-color: #28a745;
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
 }
 
+/* Categories */
 #category-container {
     display: flex;
     gap: 10px;
@@ -93,7 +98,7 @@ button:hover {
 
 .category {
     padding: 8px 16px;
-    background: linear-gradient(to right, #007bff, #0056b3);
+    background: linear-gradient(to right, #28a745, #1e7e34); /* Green category selection */
     color: white;
     border-radius: 8px;
     font-size: 14px;
@@ -104,11 +109,12 @@ button:hover {
 }
 
 .category:hover {
-    background: linear-gradient(to right, #0056b3, #003f7f);
+    background: linear-gradient(to right, #1e7e34, #155d27);
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Video Section */
 #videos-container {
     display: flex;
     flex-direction: column;
@@ -122,7 +128,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #ffffff;
+    background: #222;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -137,33 +143,39 @@ button:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Video Iframe */
 iframe {
     width: 100%;
     height: 400px;
     border: none;
     border-radius: 12px;
     transition: transform 0.3s ease;
+    background: url('loading-spinner.gif') center no-repeat;
+    background-size: contain;
 }
 
 iframe:hover {
     transform: scale(1.01);
 }
 
+/* Video Info */
 .video-title, .video-time {
     text-align: center;
     margin: 5px 0;
     font-weight: bold;
+    color: white;
 }
 
 .video-description {
     text-align: center;
     font-size: 14px;
-    color: #555;
+    color: #bbb;
     display: none;
     margin-top: 10px;
     word-wrap: break-word;
 }
 
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
     iframe {
         height: 300px;
@@ -171,5 +183,12 @@ iframe:hover {
 
     #register-section, #login-section {
         padding: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    input, button {
+        font-size: 14px;
+        padding: 10px;
     }
 }
